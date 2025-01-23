@@ -132,4 +132,116 @@ In this case, `*args` allows the function to accept any number of arguments, eff
 - **Function Arguments**: Values passed into a function to customize its behavior.
 - **Function Overloading**: Defining multiple functions with the same name but different parameters. In Python, this can be simulated using default or variable-length arguments.
 
-I hope this helps you understand these concepts! Feel free to ask more if you need further explanation or have any questions about the examples.
+
+
+---
+
+### Java Question:
+
+You are tasked with implementing a system to calculate discounts for various customer types in a retail application. In your program, you define a function `calculateDiscount` that computes discounts based on customer type and their total purchase amount. You also want to explore how scoping, shadowing, function arguments, and overloading can be utilized effectively.
+
+1. **Function Basics:**  
+   Write a basic version of the `calculateDiscount` method that takes two arguments: `customerType` (a `String`) and `totalAmount` (a `double`). The method should return a discount amount based on the `customerType`. Consider two customer types: "Regular" and "VIP". Regular customers get a 5% discount, and VIP customers get a 10% discount.
+
+2. **Scoping:**  
+   Define a class-level (global) variable `discountRate` and use it inside the method to adjust the discount rate based on some global condition (e.g., a store-wide sale).
+
+3. **Shadowing:**  
+   Inside the `calculateDiscount` method, declare a local variable `discountRate` and show how it shadows the class-level variable. What will happen if you change the local `discountRate`?
+
+4. **Function Arguments:**  
+   Modify the `calculateDiscount` method to accept an additional argument `isOnSale` (a `boolean`). If the store is having a sale, apply an additional 5% discount on top of the customer's discount. How would you use this argument to alter the discount logic?
+
+5. **Function Overloading:**  
+   Create a new version of the `calculateDiscount` method that takes three arguments: `customerType`, `totalAmount`, and `loyaltyPoints` (an `int`). The method should apply an extra 2% discount for customers with more than 100 loyalty points. Demonstrate how function overloading can be used to create multiple versions of this method with different parameters.
+
+---
+
+### Example Code Outline (in Java):
+
+```java
+public class DiscountCalculator {
+
+    // Class-level (global) discountRate
+    static double discountRate = 0.05; // Default for regular customers
+
+    // Basic version of calculateDiscount
+    public static double calculateDiscount(String customerType, double totalAmount) {
+        if (customerType.equals("VIP")) {
+            discountRate = 0.10; // VIP customers get a 10% discount
+        } else {
+            discountRate = 0.05; // Regular customers get a 5% discount
+        }
+
+        return totalAmount * discountRate;
+    }
+
+    // Method demonstrating scoping and shadowing
+    public static double calculateDiscountWithSale(String customerType, double totalAmount, boolean isOnSale) {
+        // Local variable that shadows the class-level discountRate
+        double discountRate = 0.05; // Default for regular customers
+
+        if (customerType.equals("VIP")) {
+            discountRate = 0.10; // VIP customers get a 10% discount
+        }
+
+        if (isOnSale) {
+            discountRate += 0.05; // Additional 5% discount if on sale
+        }
+
+        return totalAmount * discountRate;
+    }
+
+    // Function overloading: Adding loyaltyPoints parameter
+    public static double calculateDiscount(String customerType, double totalAmount, int loyaltyPoints) {
+        double discountRate = 0.05; // Default for regular customers
+
+        if (customerType.equals("VIP")) {
+            discountRate = 0.10; // VIP customers get a 10% discount
+        }
+
+        if (loyaltyPoints > 100) {
+            discountRate += 0.02; // Extra 2% discount for loyal customers
+        }
+
+        return totalAmount * discountRate;
+    }
+
+    public static void main(String[] args) {
+        // Test the basic method
+        System.out.println(calculateDiscount("VIP", 1000)); // Expected output: 100.0 (VIP discount)
+
+        // Test the method with sale
+        System.out.println(calculateDiscountWithSale("Regular", 1000, true)); // Expected output: 105.0 (Regular + Sale)
+
+        // Test the method with loyalty points
+        System.out.println(calculateDiscount("VIP", 1000, 150)); // Expected output: 120.0 (VIP + Loyalty points)
+    }
+}
+```
+
+---
+
+### Explanation of the Code:
+
+1. **Function Basics:**  
+   - The `calculateDiscount` method calculates the discount based on the customer type. Regular customers get a 5% discount, and VIP customers get a 10% discount.
+
+2. **Scoping:**  
+   - The global variable `discountRate` is defined at the class level. However, inside the method `calculateDiscountWithSale`, the local `discountRate` variable is used. This demonstrates how the local variable can shadow the global variable.
+
+3. **Shadowing:**  
+   - In the `calculateDiscountWithSale` method, we declare a local variable `discountRate` which shadows the class-level `discountRate`. Changing the local `discountRate` does not affect the global variable.
+
+4. **Function Arguments:**  
+   - The `isOnSale` argument is used to adjust the discount rate by an additional 5% if true. This showcases how the function arguments affect the logic within the method.
+
+5. **Function Overloading:**  
+   - The `calculateDiscount` method is overloaded to accept three arguments: `customerType`, `totalAmount`, and `loyaltyPoints`. If the `loyaltyPoints` exceed 100, an extra 2% discount is applied. This shows how function overloading allows you to define different methods with the same name but different parameters.
+
+---
+
+### Follow-Up Questions:
+- What happens when you call `calculateDiscount("VIP", 1000)` versus `calculateDiscount("Regular", 1000, 150)`?
+- How would you modify the code to ensure that the global discount rate (`discountRate`) is always used unless overridden by local values in specific methods?
+
